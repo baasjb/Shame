@@ -69,10 +69,4 @@ namespace Web.Controllers
             }
         }  
     }
-
-    public class TweetResult
-    {
-        public string Status;
-        public IEnumerable<Tweet> Tweets { get; set; }
-    }
 }
