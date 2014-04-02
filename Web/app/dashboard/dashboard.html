@@ -1,0 +1,78 @@
+﻿<section id="dashboard-view" class="mainbar" data-ng-controller="dashboard as vm">
+    <section class="matter">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget wblue">
+                        <div data-cc-widget-header title="Twitter Test" allow-collapse="true"></div>
+                        <div class="widget-content text-info">
+                            <div>&nbsp;</div>
+                            <script type="text/javascript" src="neuron.js" ></script>
+                            <div  class="col-lg-12 left">
+                                Message To Tweet  <input type="text" name="message" id="message" />
+                                <button onclick='tweet(message.value);'>Post Message</button>
+                                <script type="text/javascript">
+                                    function tweet(text) {
+
+                                        $.getJSON("/api/Twitter/TweetMessage?message=" + text,
+                                            function (data) {
+                                                if (data == true) {
+                                                    alert("Message submitted");
+                                                } else {
+                                                    alert("Message could not be submitted");
+                                                }
+
+                                            }).fail(function (jqxhr) {
+                                                alert(jqxhr.status + " - " + jqxhr.statusText);
+                                            });
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="widget wlightblue">
+                        <div data-cc-widget-header title="Get Posted Messages" allow-collapse="true"></div>
+                        <div class="widget-content text-info">
+                            <div>&nbsp;</div>
+                            <script type="text/javascript" src="neuron.js" ></script>
+                            <div class="col-lg-12 left">
+                                <button onclick='getPosts();'>Get Posts</button><br/>
+                                <div id='posts'></div>
+                                <script type="text/javascript">
+                                    function getPosts() {
+                                        try {
+                                            $.getJSON("/api/Twitter/GetPosts",
+                                                function (data) {
+                                                    // On success, "data" contains a list of movies
+                                                    var ul = $("<ul></ul>");
+                                                    $.each(data, function (key, item) {
+                                                        // Add a list item
+                                                        $('<li>', { text: item.Text }).appendTo(ul);
+                                                    });
+                                                    $('#posts').html(ul);
+                                                }).fail(function (jqxhr) {
+                                                    alert(jqxhr.status + " - " + jqxhr.statusText);
+                                                });
+                                        } catch (ex) {
+                                            alert(ex.message);
+                                        }
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                        <div class="widget-foot">
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
